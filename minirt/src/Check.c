@@ -9,7 +9,8 @@
 
 int Check_key(t_config_map map)
 {
-	if(ft_strlen(map.key) > 2 || ft_strlen(map.key) == 0 || ft_isalpha(map.key[0]) == 0 || ft_isalpha(map.key[1]) == 0)
+
+
 	{
 		perror("error");
 		return -1;
