@@ -16,6 +16,7 @@
 #include <fcntl.h>
 #include "libft/libft.h"
 
+int Check_key(t_list *lines);
 int ft_isspace(char c);
 t_config_map *getMapFromLine(char *line)
 {
@@ -26,7 +27,7 @@ t_config_map *getMapFromLine(char *line)
 	char *value = NULL;
 	t_config_map *map = malloc(sizeof (t_config_map));
 
-	    while (i < 5)
+	while (i < 5)
 		map->value[i++] = NULL;
 	i = 0;
 	while (line[i] && ft_isalpha(line[++i]));
@@ -55,6 +56,7 @@ int main()
 	int i;
 	char *line;
 	int fd;
+	int ret;
 
 	fd = open("/home/user42/Bureau/minirt/minirt_project/minirt/src/yesmine.rt", O_RDONLY);
 	if (fd == -1)
@@ -62,7 +64,7 @@ int main()
 		perror("Error");
 	}
 	t_list *lines = NULL;
-	while(get_next_line(fd, &line))
+	while(ret = get_next_line(fd, &line), ret != -1)
 	{
 		if (ft_strlen(line) > 0)
 		{
@@ -71,16 +73,21 @@ int main()
 			ft_lstadd_back(&lines, el);
 			free(line);
 		}
+		if(ret == 0)
+			break;
 	}
 	t_list	*tmp;
 	tmp = lines;
-	while(tmp->next != NULL)
+	if(Check_key(lines) == 1)
 	{
-		i = 0;
-		tmp = tmp->next;
-		t_config_map *element = tmp->content;
-		while(i < 5 )
-			printf("key: (%s), Value: (%s)\n", element->key,element->value[i++]);
+		while(tmp != NULL)
+		{
+			i = 0;
+			t_config_map *element = tmp->content;
+			while(i < 5 )
+				printf("key: (%s), Value: (%s)\n", element->key,element->value[i++]);
+			tmp = tmp->next;
+		}
 	}
 	close(fd);
 	return 0;
