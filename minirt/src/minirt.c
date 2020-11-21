@@ -26,7 +26,7 @@ t_config_map *getMapFromLine(char *line)
 	char *value = NULL;
 	t_config_map *map = malloc(sizeof (t_config_map));
 
-	while (i < 5)
+	    while (i < 5)
 		map->value[i++] = NULL;
 	i = 0;
 	while (line[i] && ft_isalpha(line[++i]));
