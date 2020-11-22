@@ -38,7 +38,7 @@ int	Check_values_if_Rkey(t_config_map *element)
 					return 1;
 				else
 					{
-						ft_putstr_fd("number of values for R key is not correct", 1);
+						ft_putstr_fd("incorrect values for R", 1);
 						return -1;
 					}
 			}
