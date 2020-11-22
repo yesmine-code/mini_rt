@@ -11,35 +11,40 @@
 #include "minirt.h"
 
 #include <unistd.h>
+#include <string.h>
 #include <stdio.h>
+#include <errno.h>
 #include <stdlib.h>
 #include <fcntl.h>
 #include "libft/libft.h"
 
+int Check_key(t_list *lines);
 int ft_isspace(char c);
-t_config_map getMapFromLine(char *line) {
+t_config_map *getMapFromLine(char *line)
+{
 	int i = 0;
 	int j = 0;
-	int k = 0;
+	int start = 0;
 	char *key = NULL;
 	char *value = NULL;
-	t_config_map map;
-	while (i < 5)
-		map.value[i++] = NULL;
+	t_config_map *map = malloc(sizeof (t_config_map));
+
+	while (i < sizeof(map->value) / sizeof(char*))
+		map->value[i++] = NULL;
 	i = 0;
-	while (line[i] && ft_isalpha(line[++i]));
+	while (line[i] && ft_isspace(line[++i]) == 0);
 	if (i > 0) {
 		key = ft_substr(line, 0, i);
 		value = ft_strtrim(ft_substr(line, i, ft_strlen(line) - i), " \t\v\f");
 	}
 	if (key != NULL && value != NULL) {
-		map.key = key;
+		map->key = key;
 		i = 0;
-		while (value[i] != '\0' && j < 5) {
-			k = i;
+		while (value[i] != '\0' && j < sizeof(map->value) / sizeof(char*)) {
+			start = i;
 			while (ft_isspace(value[i]) == 0 && value[i] != '\0')
 				i++;
-			map.value[j] = ft_substr(value, k, i - k);
+			map->value[j] = ft_substr(value, start, i - start);
 			while (ft_isspace(value[i]) == 1)
 				i++;
 			j++;
@@ -48,30 +53,48 @@ t_config_map getMapFromLine(char *line) {
 	return map;
 }
 
-int main() {
-	int i = 0;
+int main()
+{
+	int i;
 	char *line;
+	int ernum;
 	int fd;
+	int ret;
 
-	fd = open("/home/user42/Bureau/minirt/ws/Minirt/src/yesmine.rt", O_RDONLY);
+	fd = open("/home/user42/Bureau/minirt/minirt_project/minirt/src/yesmine.rt", O_RDONLY);
 	if (fd == -1)
 	{
 		perror("Error");
-	//	printf("%s", strerror(errno));
-	//	exit;
+		exit(EXIT_FAILURE);
 	}
-	if(get_next_line(fd, &line) != 1)
-		perror("Error");
-	while(get_next_line(fd, &line))
+	t_list *lines = NULL;
+	while(ret = get_next_line(fd, &line), ret != -1)
 	{
-		t_config_map map = getMapFromLine(line);
-		i = 0;
-		while (i < 5 && map.value[i] != NULL) {
-			printf("key: (%s), Value: (%s)\n", map.key, map.value[i]);
-			i++;
+		if (ft_strlen(line) > 0)
+		{
+			t_config_map *map = getMapFromLine(line);
+			t_list	*el = ft_lstnew(map);
+			ft_lstadd_back(&lines, el);
+			free(line);
 		}
-		free(line);
+		if(ret == 0)
+			break;
 	}
+	t_list	*tmp;
+	tmp = lines;
+	if(Check_key(lines) == 1)
+	{
+		while(tmp != NULL)
+		{
+			i = 0;
+			t_config_map *element = tmp->content;
+			while(i < sizeof(element->value) / sizeof(char*) )
+				printf("key: (%s), Value: (%s)\n", element->key,element->value[i++]);
+			tmp = tmp->next;
+		}
+	}
+	else
+		exit(EXIT_FAILURE);
 	close(fd);
 	return 0;
 }
