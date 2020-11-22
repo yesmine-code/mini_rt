@@ -13,6 +13,9 @@
 #include <fcntl.h>
 #include "libft/libft.h"
 
+static const char A_KEY = 'A';
+static const char R_KEY = 'R';
+
 int	get_num_of_non_null_value(char *value[]);
 int	Check_values_if_Rkey(t_config_map *element)
 {
@@ -48,6 +51,8 @@ int Check_key(t_list *lines)
 	t_list	*tmp;
 	tmp = lines;
 	t_config_map *element;
+	int		var_R = 0;
+	int 	var_A = 0;
 	char	*keys[9]={"R","A","c","l","pl","sp","sq","cy","tr"};
 	int	i;
 	while(tmp != NULL)
@@ -60,6 +65,17 @@ int Check_key(t_list *lines)
 				break;
 			else
 				i++;
+		}
+		if (ft_strchr(element->key, R_KEY) && ft_strlen(element->key) == 1)
+			var_R++;
+		else if (ft_strchr(element->key, A_KEY) && ft_strlen(element->key) == 1)
+			var_A++;
+		if(var_R > 1 || var_A > 1)
+		{
+			ft_putstr_fd("the key ", 1);
+			ft_putstr_fd(element->key, 1);
+			ft_putstr_fd(" is reused ", 1);
+			return -1;
 		}
 		if(Check_values_if_Rkey(element) == -1)
 			return -1;
