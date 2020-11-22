@@ -11,7 +11,9 @@
 #include "minirt.h"
 
 #include <unistd.h>
+#include <string.h>
 #include <stdio.h>
+#include <errno.h>
 #include <stdlib.h>
 #include <fcntl.h>
 #include "libft/libft.h"
@@ -22,15 +24,15 @@ t_config_map *getMapFromLine(char *line)
 {
 	int i = 0;
 	int j = 0;
-	int k = 0;
+	int start = 0;
 	char *key = NULL;
 	char *value = NULL;
 	t_config_map *map = malloc(sizeof (t_config_map));
 
-	while (i < 5)
+	while (i < sizeof(map->value) / sizeof(char*))
 		map->value[i++] = NULL;
 	i = 0;
-	while (line[i] && ft_isalpha(line[++i]));
+	while (line[i] && ft_isspace(line[++i]) == 0);
 	if (i > 0) {
 		key = ft_substr(line, 0, i);
 		value = ft_strtrim(ft_substr(line, i, ft_strlen(line) - i), " \t\v\f");
@@ -38,11 +40,11 @@ t_config_map *getMapFromLine(char *line)
 	if (key != NULL && value != NULL) {
 		map->key = key;
 		i = 0;
-		while (value[i] != '\0' && j < 5) {
-			k = i;
+		while (value[i] != '\0' && j < sizeof(map->value) / sizeof(char*)) {
+			start = i;
 			while (ft_isspace(value[i]) == 0 && value[i] != '\0')
 				i++;
-			map->value[j] = ft_substr(value, k, i - k);
+			map->value[j] = ft_substr(value, start, i - start);
 			while (ft_isspace(value[i]) == 1)
 				i++;
 			j++;
@@ -55,6 +57,7 @@ int main()
 {
 	int i;
 	char *line;
+	int ernum;
 	int fd;
 	int ret;
 
@@ -62,6 +65,7 @@ int main()
 	if (fd == -1)
 	{
 		perror("Error");
+		exit(EXIT_FAILURE);
 	}
 	t_list *lines = NULL;
 	while(ret = get_next_line(fd, &line), ret != -1)
@@ -84,11 +88,13 @@ int main()
 		{
 			i = 0;
 			t_config_map *element = tmp->content;
-			while(i < 5 )
+			while(i < sizeof(element->value) / sizeof(char*) )
 				printf("key: (%s), Value: (%s)\n", element->key,element->value[i++]);
 			tmp = tmp->next;
 		}
 	}
+	else
+		exit(EXIT_FAILURE);
 	close(fd);
 	return 0;
 }

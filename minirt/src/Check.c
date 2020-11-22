@@ -24,17 +24,19 @@ int Check_key(t_list *lines)
 	{
 		element = tmp->content;
 		i = 0;
-		while(i < 9)
+		while(i < sizeof(keys) / sizeof(char*))
 		{
 			if(ft_strnstr(keys[i], element->key, ft_strlen(keys[i])) && ft_strlen(element->key) == ft_strlen(keys[i]))
 				break;
 			else
 				i++;
 		}
-		if(i == 9)
+		if(i == sizeof(keys) / sizeof(char*))
 		{
-			perror("error");
-			ft_putstr_fd("the key is not right", 1);
+		//	perror("error");
+			ft_putstr_fd("the key ", 1);
+			ft_putstr_fd(element->key, 1);
+			ft_putstr_fd(" is not correct", 1);
 			return -1;
 		}
 		tmp = tmp->next;
