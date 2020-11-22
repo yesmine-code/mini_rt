@@ -66,6 +66,14 @@ int Check_key(t_list *lines)
 			else
 				i++;
 		}
+		if(i == sizeof(keys) / sizeof(char*))
+		{
+		//	perror("error");
+			ft_putstr_fd("the key ", 1);
+			ft_putstr_fd(element->key, 1);
+			ft_putstr_fd(" is not correct", 1);
+			return -1;
+		}
 		if (ft_strchr(element->key, R_KEY) && ft_strlen(element->key) == 1)
 			var_R++;
 		else if (ft_strchr(element->key, A_KEY) && ft_strlen(element->key) == 1)
@@ -79,14 +87,7 @@ int Check_key(t_list *lines)
 		}
 		if(Check_values_if_Rkey(element) == -1)
 			return -1;
-		if(i == sizeof(keys) / sizeof(char*))
-		{
-		//	perror("error");
-			ft_putstr_fd("the key ", 1);
-			ft_putstr_fd(element->key, 1);
-			ft_putstr_fd(" is not correct", 1);
-			return -1;
-		}
+		
 		tmp = tmp->next;
 	}
 	return 1;
