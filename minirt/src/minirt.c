@@ -57,7 +57,6 @@ int main()
 {
 	int i;
 	char *line;
-	int ernum;
 	int fd;
 	int ret;
 
@@ -68,7 +67,8 @@ int main()
 		exit(EXIT_FAILURE);
 	}
 	t_list *lines = NULL;
-	while(ret = get_next_line(fd, &line), ret != -1)
+	ret = get_next_line(fd, &line);
+	while(ret != -1)
 	{
 		if (ft_strlen(line) > 0)
 		{
@@ -79,6 +79,7 @@ int main()
 		}
 		if(ret == 0)
 			break;
+		ret = get_next_line(fd, &line);
 	}
 	t_list	*tmp;
 	tmp = lines;

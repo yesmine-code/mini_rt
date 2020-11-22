@@ -13,29 +13,32 @@
 #include <fcntl.h>
 #include "libft/libft.h"
 
+int	get_num_of_non_null_value(char *value[]);
 int	Check_values_if_Rkey(t_config_map *element)
 {
-	int	i = 0;
 	char *first_num;
 	char *second_num;
 
-	if(strchr(element->key, 'R'))
+	if(ft_strchr(element->key, 'R'))
 	{
-		first_num = ft_itoa(ft_atoi(element->value[0]));
-		second_num = ft_itoa(ft_atoi(element->value[1]));
 		if(get_num_of_non_null_value(element->value) != 2)
 		{
 			ft_putstr_fd("number of values for R key is not correct", 1);
 			return -1;
 		}
-		else if(ft_strncmp(first_num, element->value[0], ft_strlen(element->value[0])) == 0 &&
-				ft_strncmp(second_num, element->value[1], ft_strlen(element->value[1])) == 0 )
-			return 1;
 		else
-		{
-			ft_putstr_fd("number of values for R key is not correct", 1);
-			return -1;
-		}
+			{
+				first_num = ft_itoa(ft_atoi(element->value[0]));
+				second_num = ft_itoa(ft_atoi(element->value[1]));
+				if(ft_strncmp(first_num, element->value[0], ft_strlen(element->value[0])) == 0 &&
+					ft_strncmp(second_num, element->value[1], ft_strlen(element->value[1])) == 0 )
+					return 1;
+				else
+					{
+						ft_putstr_fd("number of values for R key is not correct", 1);
+						return -1;
+					}
+			}
 	}
 	return(0);
 }
