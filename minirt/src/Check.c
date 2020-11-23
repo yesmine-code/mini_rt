@@ -6,12 +6,13 @@
  */
 
 #include "minirt.h"
-
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
 #include "libft/libft.h"
+#include <math.h>
+#include <float.h>
 
 static const char A_KEY = 'A';
 static const char R_KEY = 'R';

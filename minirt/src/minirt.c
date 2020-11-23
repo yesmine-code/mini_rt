@@ -9,7 +9,6 @@
  */
 
 #include "minirt.h"
-
 #include <unistd.h>
 #include <string.h>
 #include <stdio.h>
@@ -17,6 +16,8 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include "libft/libft.h"
+#include <math.h>
+#include <float.h>
 
 int Check_key(t_list *lines);
 int ft_isspace(char c);
