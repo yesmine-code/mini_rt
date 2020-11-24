@@ -5,15 +5,6 @@
  *      Author: user42
  */
 #include "minirt.h"
-#include <unistd.h>
-#include <string.h>
-#include <stdio.h>
-#include <errno.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include "libft/libft.h"
-#include <math.h>
-#include <float.h>
 
 int	check_if_strings_are__floats_or_int(char **tab)
 {

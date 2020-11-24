@@ -7,15 +7,6 @@
 
 
 #include "minirt.h"
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include "libft/libft.h"
-#include <math.h>
-#include <float.h>
-
-int convert_char_to_float(char *value, double *new_float);
 
 void	ft_free_tab(char **tab)
 {
