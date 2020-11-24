@@ -7,29 +7,28 @@
 
 #include "minirt.h"
 
-int	check_if_strings_are_floats(char **tab)
+int	check_if_strings_are_n_floats(char **tab, int n)
 {
 	int	i = 0;
 
 	while(tab[i] != NULL )
 	{
-		if(Check_if_float(tab[i]) == 1)
+		if(Check_if_float(tab[i]) == 1 || value_is_int(tab[i]) == 1)
 			i++;
 		else
 			return -1;
 	}
-	if(i == 3)
+	if(i == n)
 		return 0;
-	else
-		return -1;
+	return -1;
 }
 
-int	check_if_value_is_tab_of__floats(char *value)
+int	check_if_value_is_tab_of_n_floats(char *value, int n)
 {
 	char	**tab;
 
 	tab = ft_split(value, ',');
-	if(check_if_strings_are_floats(tab) == 0)
+	if(check_if_strings_are_n_floats(tab, n) == 0)
 	{
 		ft_free_tab(tab);
 		return 1;
@@ -40,7 +39,7 @@ int	check_if_value_is_tab_of__floats(char *value)
 		return -1;
 	}
 }
-int	check_if_strings_are_limitted__floats_or_int(char **tab, double min, double max)
+int	check_limitted_n_floats_or_int(char **tab, double min, double max, int n)
 {
 	int	i = 0;
 
@@ -59,27 +58,21 @@ int	check_if_strings_are_limitted__floats_or_int(char **tab, double min, double 
 		else
 			return -1;
 	}
-	if(i == 3)
+	if(i == n)
 		return 0;
-	else
-		return -1;
+	return -1;
 }
 
-int	check_if_value_is_tab_of_limitted__floats_or_int(char *value, double min, double max)
+int	check_n_limitted_floats_or_int(char *value, double min, double max, int n)
 {
 	char	**tab;
+	int ret = -1;
 
-		tab = ft_split(value, ',');
-		if(check_if_strings_are_limitted__floats_or_int(tab, min, max) == 0)
-		{
-			ft_free_tab(tab);
-			return 1;
-		}
-		else
-		{
-			ft_free_tab(tab);
-			return -1;
-		}
+	tab = ft_split(value, ',');
+	if(check_limitted_n_floats_or_int(tab, min, max, n) == 0)
+		ret =1;
+	ft_free_tab(tab);
+	return ret;
 }
 
 int check_values_if_c_key(t_config_map *element)
@@ -91,15 +84,14 @@ int check_values_if_c_key(t_config_map *element)
 			ft_putstr_fd("number of values for c key is not correct", 1);
 			return -1;
 		}
-		else if(check_if_value_is_tab_of__floats_or_int(element->value[0]) != 1||
-				check_if_value_is_tab_of_limitted__floats_or_int(element->value[1], -1, 1) != 1 ||
+		if(check_if_value_is_tab_of__floats_or_int(element->value[0]) != 1||
+				check_n_limitted_floats_or_int(element->value[1], -1, 1, 3) != 1 ||
 				check_if_value_is_an_integer_between_0_and_180(element->value[2]) != 1)
 		{
 			ft_putstr_fd("incorrect values for c", 1);
 			return(-1);
 		}
-		else
-			return 1;
+		return 1;
 	}
 	return 0;
 }

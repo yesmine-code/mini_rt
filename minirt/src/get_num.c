@@ -21,6 +21,13 @@ void	ft_free_tab(char **tab)
 	free(tab);
 }
 
+int value_is_int(char *value)
+{
+	if(ft_strlen(ft_itoa(ft_atoi(value))) == ft_strlen(value))
+		return 1;
+	return -1;
+}
+
 /**
  * this function
  * @returns
@@ -56,13 +63,12 @@ int Check_if_float(char *value)
 	}
 	if(i == length && dots_num == 1 && value[length - 1] != '.')
 		return 1;
-	else
-		return -1;
+	return -1;
 }
 
 int	check_if_limitted_float(char *value, double min, double max)
 {
-	if(Check_if_float(value) == 1)
+	if(Check_if_float(value) == 1 || value_is_int(value) == 1)
 	{
 		double	float_value;
 		convert_char_to_float(value, &float_value);
@@ -94,8 +100,12 @@ int convert_char_to_float(char *value, double *new_float)
 		free(new_value);
 		return 1;
 	}
-	else
-		return -1;
+	if(value_is_int(value) == 1)
+	{
+		*new_float = ft_atoi(value);
+		return 1;
+	}
+	return -1;
 }
 /**
  * this function

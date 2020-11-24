@@ -46,8 +46,9 @@ int	check_if_strings_can_be_integer(char **tab);
 int	check_if_strings_are__floats_or_int(char **tab);
 int	check_if_value_is_tab_of__floats_or_int(char *value);
 int	check_if_value_is_an_integer_between_0_and_180(char *value);
-int	check_if_strings_are_floats(char **tab);
-int	check_if_value_is_tab_of__floats(char *value);
-int	check_if_strings_are_limitted__floats_or_int(char **tab, double min, double max);
-int	check_if_value_is_tab_of_limitted__floats_or_int(char *value, double min, double max);
+int	check_if_strings_are_n_floats(char **tab, int n);
+int	check_if_value_is_tab_of_n_floats(char *value, int n);
+int	check_limitted_n_floats_or_int(char **tab, double min, double max, int n);
+int	check_n_limitted_floats_or_int(char *value, double min, double max, int n);
+int value_is_int(char *value);
 
