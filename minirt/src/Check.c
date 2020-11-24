@@ -22,10 +22,13 @@ int	Check_values_if_Rkey(t_config_map *element);
 int check_values_if_A_key(t_config_map *element);
 int	get_num_of_non_null_value(char *value[]);
 int	check_if_value_is_tab_of_colors(char *value);
+int	check_if_limitted_float(char *value, double min, double max);
+int check_values_if_c_key(t_config_map *element);
 
 int	check_values(t_config_map *element)
 {
-	if(Check_values_if_Rkey(element) != -1 && check_values_if_A_key(element) != -1)
+	if(Check_values_if_Rkey(element) != -1 && check_values_if_A_key(element) != -1 &&
+			check_values_if_c_key(element) != -1)
 		return(1);
 	else
 		return(-1);

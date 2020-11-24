@@ -15,6 +15,8 @@
 #include <math.h>
 #include <float.h>
 
+int convert_char_to_float(char *value, double *new_float);
+
 void	ft_free_tab(char **tab)
 {
 	int	i;
@@ -91,7 +93,7 @@ int convert_char_to_float(char *value, double *new_float)
 	{
 		char	**tab;
 		char	*new_value;
-		int	length;
+		int		length;
 
 		tab = ft_split(value, '.');
 		length = ft_strlen(tab[1]);
