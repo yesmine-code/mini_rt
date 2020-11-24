@@ -18,6 +18,39 @@ static const char A_KEY = 'A';
 static const char R_KEY = 'R';
 
 int	get_num_of_non_null_value(char *value[]);
+int	Check_values_if_Rkey(t_config_map *element);
+int check_values_if_A_key(t_config_map *element);
+int	get_num_of_non_null_value(char *value[]);
+int	check_if_value_is_tab_of_colors(char *value);
+
+int	check_values(t_config_map *element)
+{
+	if(Check_values_if_Rkey(element) != -1 && check_values_if_A_key(element) != -1)
+		return(1);
+	else
+		return(-1);
+}
+
+int check_values_if_A_key(t_config_map *element)
+{
+	if(ft_strchr(element->key, 'A'))
+	{
+		if(get_num_of_non_null_value(element->value) != 2)
+		{
+			ft_putstr_fd("number of values for A key is not correct", 1);
+			return -1;
+		}
+		else if(check_if_limitted_float(element->value[0], 0.0, 1.0) != 1 || check_if_value_is_tab_of_colors(element->value[1]) != 1)
+		{
+			ft_putstr_fd("incorrect values for A", 1);
+			return(-1);
+		}
+		else
+			return 1;
+	}
+	return 0;
+}
+
 int	Check_values_if_Rkey(t_config_map *element)
 {
 	char *first_num;
@@ -86,7 +119,7 @@ int Check_key(t_list *lines)
 			ft_putstr_fd(" is reused ", 1);
 			return -1;
 		}
-		if(Check_values_if_Rkey(element) == -1)
+		if(check_values(element) == -1)
 			return -1;
 		
 		tmp = tmp->next;

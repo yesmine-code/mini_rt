@@ -21,6 +21,7 @@
 
 int Check_key(t_list *lines);
 int ft_isspace(char c);
+
 t_config_map *getMapFromLine(char *line)
 {
 	int i = 0;
