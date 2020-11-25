@@ -77,7 +77,7 @@ int	check_n_limitted_floats_or_int(char *value, double min, double max, int n)
 
 int check_values_if_c_key(t_config_map *element)
 {
-	if(ft_strchr(element->key, 'c') && ft_strlen(element->key) ==1)
+	if(ft_strchr(element->key, C_KEY) && ft_strlen(element->key) ==1)
 	{
 		if(get_num_of_non_null_value(element->value) != 3)
 		{
