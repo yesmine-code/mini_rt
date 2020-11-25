@@ -82,10 +82,11 @@ int main()
 			while(i < sizeof(element->value) / sizeof(char*) )
 				printf("key: (%s), Value: (%s)\n", element->key,element->value[i++]);
 			tmp = tmp->next;
+
 		}
+		exit(EXIT_SUCCESS);
 	}
-	else
-		exit(EXIT_FAILURE);
+	exit(EXIT_FAILURE);
 	close(fd);
 	return 0;
 }
