@@ -26,16 +26,23 @@ typedef struct 	s_config_map
 
 static const char A_KEY = 'A';
 static const char R_KEY = 'R';
+static const char C_KEY = 'c';
+static const char L_KEY = 'l';
 
 int	check_values(t_config_map *element);
 int	get_num_of_non_null_value(char *value[]);
 int	Check_values_if_Rkey(t_config_map *element);
 int check_values_if_A_key(t_config_map *element);
 int check_values_if_c_key(t_config_map *element);
+int check_values_if_l_key(t_config_map *element);
+int check_values_if_sp_key(t_config_map *element);
+int check_values_if_pl_key(t_config_map *element);
+int check_values_if_sq_key(t_config_map *element);
+int check_values_if_cy_key(t_config_map *element);
+int check_values_if_tr_key(t_config_map *element);
 int	get_num_of_non_null_value(char *value[]);
 int	check_if_value_is_tab_of_colors(char *value);
 int	check_if_limitted_float(char *value, double min, double max);
-int check_values_if_c_key(t_config_map *element);
 int Check_key(t_list *lines);
 int ft_isspace(char c);
 t_config_map *getMapFromLine(char *line);

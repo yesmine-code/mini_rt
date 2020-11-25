@@ -10,7 +10,10 @@
 int	check_values(t_config_map *element)
 {
 	if(Check_values_if_Rkey(element) != -1 && check_values_if_A_key(element) != -1 &&
-			check_values_if_c_key(element) != -1)
+			check_values_if_c_key(element) != -1 && check_values_if_l_key(element) != -1 &&
+			check_values_if_sp_key(element) != -1 && check_values_if_pl_key(element) != -1 &&
+			check_values_if_sq_key(element) != -1 && check_values_if_cy_key(element) != -1 &&
+			check_values_if_tr_key(element) != -1)
 		return(1);
 	else
 		return(-1);
