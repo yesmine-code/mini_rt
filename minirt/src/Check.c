@@ -41,9 +41,6 @@ int check_values_if_A_key(t_config_map *element)
 
 int	Check_values_if_Rkey(t_config_map *element)
 {
-	char *first_num;
-	char *second_num;
-
 	if(ft_strchr(element->key, R_KEY))
 	{
 		if(get_num_of_non_null_value(element->value) != 2)
@@ -53,10 +50,9 @@ int	Check_values_if_Rkey(t_config_map *element)
 		}
 		else
 			{
-				first_num = ft_itoa(ft_atoi(element->value[0]));
-				second_num = ft_itoa(ft_atoi(element->value[1]));
-				if(ft_strncmp(first_num, element->value[0], ft_strlen(element->value[0])) == 0 &&
-					ft_strncmp(second_num, element->value[1], ft_strlen(element->value[1])) == 0 )
+				if(value_is_int(element->value[0]) == 1 && ft_atoi(element->value[0]) > 0 &&
+						value_is_int(element->value[1]) == 1 && ft_atoi(element->value[1]) > 0
+					)
 					return 1;
 				else
 					{
