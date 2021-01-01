@@ -1,9 +1,11 @@
 /*
  * check2.c
  *
- *  Created on: 24 nov. 2020
+ *  Created on: 1 janv. 2021
  *      Author: user42
  */
+
+
 
 #include "minirt.h"
 

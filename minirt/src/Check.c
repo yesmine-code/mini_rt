@@ -5,7 +5,7 @@
  *      Author: user42
  */
 
-#include "minirt.h"
+#include "vec.h"
 
 int	check_values(t_config_map *element)
 {
@@ -51,8 +51,7 @@ int	Check_values_if_Rkey(t_config_map *element)
 		else
 			{
 				if(value_is_int(element->value[0]) == 1 && ft_atoi(element->value[0]) > 0 &&
-						value_is_int(element->value[1]) == 1 && ft_atoi(element->value[1]) > 0
-					)
+						value_is_int(element->value[1]) == 1 && ft_atoi(element->value[1]) > 0)
 					return 1;
 				else
 					{
@@ -64,10 +63,10 @@ int	Check_values_if_Rkey(t_config_map *element)
 	return(0);
 }
 
-int Check_key(t_list *lines)
+int check_keys_and_values(t_vars *vars)
 {
 	t_list	*tmp;
-	tmp = lines;
+	tmp = vars->lines;
 	t_config_map *element;
 	int		var_R = 0;
 	int 	var_A = 0;
@@ -77,7 +76,7 @@ int Check_key(t_list *lines)
 	{
 		element = tmp->content;
 		i = 0;
-		while(i < sizeof(keys) / sizeof(char*))
+		while((unsigned)i < sizeof(keys) / sizeof(char*))
 		{
 			if(ft_strnstr(keys[i], element->key, ft_strlen(keys[i])) && ft_strlen(element->key) == ft_strlen(keys[i]))
 				break;
@@ -86,10 +85,7 @@ int Check_key(t_list *lines)
 		}
 		if(i == sizeof(keys) / sizeof(char*))
 		{
-		//	perror("error");
-			ft_putstr_fd("the key ", 1);
-			ft_putstr_fd(element->key, 1);
-			ft_putstr_fd(" is not correct", 1);
+			vars->error_msg = ft_strjoin(element->key, " is not correct");
 			return -1;
 		}
 		if (ft_strchr(element->key, R_KEY) && ft_strlen(element->key) == 1)
@@ -98,9 +94,7 @@ int Check_key(t_list *lines)
 			var_A++;
 		if(var_R > 1 || var_A > 1)
 		{
-			ft_putstr_fd("the key ", 1);
-			ft_putstr_fd(element->key, 1);
-			ft_putstr_fd(" is reused ", 1);
+			vars->error_msg = ft_strjoin(element->key, " couldn't be reused");
 			return -1;
 		}
 		if(check_values(element) == -1)

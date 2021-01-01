@@ -35,7 +35,7 @@ CFLAGS		= -Wall -Wextra -Werror -D BUFFER_SIZE=200
 
 .c.o:
 				${CC} ${CFLAGS} -c -I${INCLUDES} $< -o ${<:.c=.o}
-
+				
 $(NAME):		$(OBJS)
 				ar rcs $(NAME) $(OBJS)
 

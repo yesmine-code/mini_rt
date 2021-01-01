@@ -8,19 +8,6 @@
 
 #include "minirt.h"
 
-void	ft_free_tab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while(tab[i] != NULL)
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
-}
-
 int value_is_int(char *value)
 {
 	if(ft_strlen(ft_itoa(ft_atoi(value))) == ft_strlen(value))
@@ -71,6 +58,7 @@ int	check_if_limitted_float(char *value, double min, double max)
 	if(Check_if_float(value) == 1 || value_is_int(value) == 1)
 	{
 		double	float_value;
+		float_value = 0;
 		convert_char_to_float(value, &float_value);
 		if(float_value >= min && float_value <= max)
 			return 1;
@@ -96,7 +84,7 @@ int convert_char_to_float(char *value, double *new_float)
 		length = ft_strlen(tab[1]);
 		new_value = ft_strjoin(tab[0], tab[1]);
 		*new_float = ft_atoi(new_value) * pow(10, length * -1);
-		ft_free_tab(tab);
+		ft_free_tab((void **)tab);
 		free(new_value);
 		return 1;
 	}
@@ -143,12 +131,12 @@ int	check_if_value_is_tab_of_colors(char *value)
 	tab = ft_split(value, ',');
 	if(check_if_strings_can_be_integer(tab) == 0)
 	{
-		ft_free_tab(tab);
+		ft_free_tab((void **)tab);
 		return 1;
 	}
 	else
 	{
-		ft_free_tab(tab);
+		ft_free_tab((void **)tab);
 		return -1;
 	}
 }
