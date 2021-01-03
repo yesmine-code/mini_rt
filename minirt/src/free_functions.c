@@ -7,7 +7,7 @@
 
 #include "vec.h"
 
-void	ft_free_tab(void **tab)
+void	ft_free_tab(void **tab, int freeTabParent)
 {
 	int	i;
 
@@ -17,7 +17,8 @@ void	ft_free_tab(void **tab)
 		free(tab[i]);
 		i++;
 	}
-	free(tab);
+	if(freeTabParent)
+		free(tab);
 }
 
 void	ft_free_list(t_list *list)
@@ -55,6 +56,24 @@ void ft_free_scene(t_scene *scene)
 	}
 }
 
+void	ft_free_map(t_list *list)
+{
+	t_list *tmp;
+	t_config_map *map;
+
+	tmp = list;
+	while(tmp != NULL)
+	{
+		map = tmp->content;
+		if(map->key != NULL)
+			free(map->key);
+		if(map->value != NULL)
+			ft_free_tab((void **)map->value, 0);
+		tmp = tmp->next;
+	}
+	free(list);
+}
+
 size_t ft_exit_failure(t_vars vars)
 {
 	size_t size;
@@ -65,8 +84,8 @@ size_t ft_exit_failure(t_vars vars)
 		size += write(1, vars.error_msg, ft_strlen(vars.error_msg));
 		free(vars.error_msg);
 	}
-	if(vars.lines != NULL)
-		ft_free_list(vars.lines);
+	ft_free_map(vars.lines);
+	free(vars.error_msg);
 	ft_free_scene(vars.scene);
 	exit(EXIT_FAILURE);
 	return(size);

@@ -36,8 +36,9 @@ void	read_config_file(char *config_file, t_vars *vars)
 			}
 			t_list	*el = ft_lstnew(map);
 			ft_lstadd_back(&lines, el);
-			free(line);
 		}
+		if(line != NULL)
+			free(line);
 		if(ret == 0)
 			break;
 		ret = get_next_line(fd, &line);
@@ -58,6 +59,7 @@ t_config_map *getMapFromLine(char *line)
 	int start = 0;
 	char *key = NULL;
 	char *value = NULL;
+	char *str = NULL;
 	t_config_map *map = malloc(sizeof (t_config_map));
 
 	if(map == NULL)
@@ -66,14 +68,23 @@ t_config_map *getMapFromLine(char *line)
 		map->value[i++] = NULL;
 	i = 0;
 	while (line[i] && ft_isspace(line[++i]) == 0);
-	if (i > 0) {
+	if (i > 0)
+	{
 		key = ft_substr(line, 0, i);
-		value = ft_strtrim(ft_substr(line, i, ft_strlen(line) - i), " \t\v\f");
+		str = ft_substr(line, i, ft_strlen(line) - i);
+		if(str != NULL)
+		{
+			value = ft_strtrim(str, " \t\v\f");
+			free(str);
+		}
+
 	}
-	if (key != NULL && value != NULL) {
-		map->key = key;
+	if (key != NULL && value != NULL)
+	{
+		map->key = ft_strdup(key);
 		i = 0;
-		while (value[i] != '\0' && (unsigned)j < sizeof(map->value) / sizeof(char*)) {
+		while (value[i] != '\0' && (unsigned)j < sizeof(map->value) / sizeof(char*))
+		{
 			start = i;
 			while (ft_isspace(value[i]) == 0 && value[i] != '\0')
 				i++;
@@ -83,6 +94,10 @@ t_config_map *getMapFromLine(char *line)
 			j++;
 		}
 	}
+	if(key != NULL)
+		free(key);
+	if(value != NULL)
+		free(value);
 	return map;
 }
 
@@ -251,22 +266,25 @@ int thread_init(t_vars *vars)
 		save_image(vars);
 	else
 		mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
-	//free scene
-
 	return 0;
 }
 
 int check_file_extention(char *filename)
 {
 	char *ptr;
+	int ret;
 
+	ret = 0;
+	ptr = NULL;
 	if(ft_strlen(filename) > 3)
 	{
 		ptr = ft_substr(filename, ft_strlen(filename) - 3, 3);
-		if(ft_strncmp(ptr, ".rt", 3) == 0)
-			return 1;
+		if(ptr != NULL && ft_strncmp(ptr, ".rt", 3) == 0)
+			ret = 1;
 	}
-	return 0;
+	if(ptr != NULL)
+		free(ptr);
+	return(ret);
 }
 
 int		main(int argc, char **argv)
@@ -277,9 +295,9 @@ int		main(int argc, char **argv)
 
 	str = NULL;
 	if(argc == 2)
-		ft_memcpy(str, argv[1], ft_strlen(argv[1]));
+		str = ft_strjoin("/home/user42/Bureau/minirt/minirt_project/minirt/", argv[1]);
 	else
-		str = "/home/user42/Bureau/minirt/minirt_project/minirt/scenes/test/wolf.rt";
+		str = ft_strdup("/home/user42/Bureau/minirt/minirt_project/minirt/scenes/sphere.rt");
 	vars.lines = NULL;
 	vars.error_msg = NULL;
 	vars.scene = NULL;
@@ -288,13 +306,13 @@ int		main(int argc, char **argv)
 		vars.error_msg = ft_strdup("wrong filename extension");
 		ft_exit_failure(vars);
 	}
-	vars.save = 1;
+	vars.save = 0;
 	read_config_file(str, &vars);
+
+	free(str);
 	if(check_keys_and_values(&vars) != 1)
 		ft_exit_failure(vars);
 	fill_scene(&vars);
-	ft_free_list(vars.lines);
-	vars.lines = NULL;
 	vars.mlx = mlx_init();
 	compute_window_resolution(&vars);
 	img.img = mlx_new_image(vars.mlx, vars.scene->resolution.width, vars.scene->resolution.height);
@@ -309,9 +327,9 @@ int		main(int argc, char **argv)
 	}
 	else
 		thread_init(&vars);
+	ft_free_map(vars.lines);
 	ft_free_scene(vars.scene);
 	exit(EXIT_SUCCESS);
-	printf("%s", str);
 	return 0;
 }
 

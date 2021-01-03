@@ -10,9 +10,16 @@
 
 int value_is_int(char *value)
 {
-	if(ft_strlen(ft_itoa(ft_atoi(value))) == ft_strlen(value))
-		return 1;
-	return -1;
+	char *str;
+	int ret;
+
+	ret = -1;
+	str = ft_itoa(ft_atoi(value));
+	if(str != NULL && ft_strlen(str) == ft_strlen(value))
+		ret = 1;
+	if(str != NULL)
+		free(str);
+	return(ret);
 }
 
 /**
@@ -84,7 +91,7 @@ int convert_char_to_float(char *value, double *new_float)
 		length = ft_strlen(tab[1]);
 		new_value = ft_strjoin(tab[0], tab[1]);
 		*new_float = ft_atoi(new_value) * pow(10, length * -1);
-		ft_free_tab((void **)tab);
+		ft_free_tab((void **)tab, 1);
 		free(new_value);
 		return 1;
 	}
@@ -104,13 +111,21 @@ int convert_char_to_float(char *value, double *new_float)
 int	check_if_strings_can_be_integer(char **tab)
 {
 	int	i = 0;
+	char *str;
 
-	while(tab[i] != NULL )
+	while(tab[i] != NULL)
 	{
-		if(ft_strlen(ft_itoa(ft_atoi(tab[i]))) == ft_strlen(tab[i]) && ft_atoi(tab[i]) >= 0 && ft_atoi(tab[i]) <= 255 )
+		str = ft_itoa(ft_atoi(tab[i]));
+		if(str != NULL && ft_strlen(str) == ft_strlen(tab[i]) && ft_atoi(tab[i]) >= 0 && ft_atoi(tab[i]) <= 255 )
 			i++;
 		else
+		{
+			if(str != NULL)
+				free(str);
 			return -1;
+		}
+		if(str != NULL)
+			free(str);
 	}
 	if(i == 3)
 		return 0;
@@ -131,12 +146,12 @@ int	check_if_value_is_tab_of_colors(char *value)
 	tab = ft_split(value, ',');
 	if(check_if_strings_can_be_integer(tab) == 0)
 	{
-		ft_free_tab((void **)tab);
+		ft_free_tab((void **)tab, 1);
 		return 1;
 	}
 	else
 	{
-		ft_free_tab((void **)tab);
+		ft_free_tab((void **)tab, 1);
 		return -1;
 	}
 }

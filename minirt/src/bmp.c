@@ -78,7 +78,7 @@ void save_image(t_vars *vars)
 
 	pad = (4 - (vars->scene->resolution.width * 3) % 4) % 4;
 	filesize = 54 + ((3 * vars->scene->resolution.width + pad) * vars->scene->resolution.height);
-	if ((fd = open("minirt.bmp", O_WRONLY | O_CREAT | O_TRUNC | O_APPEND, 0666)) < 0)
+	if ((fd = open("miniRT.bmp", O_WRONLY | O_CREAT | O_TRUNC | O_APPEND, 0666)) < 0)
 	{
 		vars->error_msg = "bmp file could not be created";
 		ft_exit_failure(*vars);
