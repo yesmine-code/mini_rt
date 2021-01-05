@@ -4,10 +4,15 @@
  *  Created on: 24 déc. 2020
  *      Author: user42
  */
-
-
 #include "vec.h"
 
+int ft_exit(t_vars *vars)
+{
+	ft_free_map(vars->lines);
+	ft_free_scene(vars->scene);
+	exit(EXIT_SUCCESS);
+	return (0);
+}
 int press_key(int keycode,t_vars *vars)
 {
 	t_camera *cam = get_from_list_by_id(vars->scene->cameras, vars->scene->current_cam_id);
@@ -20,7 +25,7 @@ int press_key(int keycode,t_vars *vars)
 	else if(keycode == 65307 || keycode == 27)
 	{
 		mlx_destroy_window(vars->mlx, vars->win);
-		exit(EXIT_SUCCESS);
+		ft_exit(vars);
 	}
 	else if(keycode == 65362 || keycode == KEY_UP)
 		cam->origine = ft_vec_add(cam->origine, ft_vec_mult_d(-0.08, ft_vec_cross(cam->vertical, cam->horizontal)));

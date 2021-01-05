@@ -16,7 +16,7 @@ MLX_DIR = mlx_linux
 
 CC			= gcc
 
-MLX_FLAGS = -lm -lbsd -lXext -lX11 -pthread
+MLX_FLAGS = -lm -lbsd -lXext -lX11 -lz -pthread
 
 LFLAGS =  -D BUFFER_SIZE=100
 
@@ -29,7 +29,7 @@ all: 			$(NAME)
 $(NAME):		$(OBJS) $(OBJS_LIBFT)
 				@make -C $(MLX_DIR)
 				@make -C $(LIBFT_DIR)
-				@$(CC) $(CFLAGS) $(LFLAGS) -I $(INCLUDES) $(OBJS)  $(OBJS_LIBFT) -o $(NAME) -L./mlx_linux -lmlx_Linux -lm -lbsd -lXext -lX11 -lpthread
+				@$(CC) $(CFLAGS) $(LFLAGS) -I $(INCLUDES) $(OBJS)  $(OBJS_LIBFT) -o $(NAME) -L./mlx_linux -lmlx_Linux -lm -lbsd -lXext -lX11 -lz -lpthread
 
 %.o: %.c
 				@$(CC) $(CFLAGS) $(LFLAGS)  -I $(INCLUDES) -o $@ -c $<

@@ -8,7 +8,6 @@
  ============================================================================
  */
 
-#include "mlx_int.h"
 #include "vec.h"
 
 void	read_config_file(char *config_file, t_vars *vars)
@@ -77,7 +76,6 @@ t_config_map *getMapFromLine(char *line)
 			value = ft_strtrim(str, " \t\v\f");
 			free(str);
 		}
-
 	}
 	if (key != NULL && value != NULL)
 	{
@@ -98,7 +96,7 @@ t_config_map *getMapFromLine(char *line)
 		free(key);
 	if(value != NULL)
 		free(value);
-	return map;
+	return (map);
 }
 
 void fill_lumieres(t_config_map *element, t_vars *vars)
@@ -295,9 +293,9 @@ int		main(int argc, char **argv)
 
 	str = NULL;
 	if(argc == 2)
-		str = ft_strjoin("/home/user42/Bureau/minirt/minirt_project/minirt/", argv[1]);
+		str = ft_strjoin("/home/user42/Bureau/minirt2/minirt/", argv[1]);
 	else
-		str = ft_strdup("/home/user42/Bureau/minirt/minirt_project/minirt/scenes/sphere.rt");
+		str = ft_strdup("/home/user42/Bureau/minirt2/minirt/scenes/sphere.rt");
 	vars.lines = NULL;
 	vars.error_msg = NULL;
 	vars.scene = NULL;
@@ -308,7 +306,6 @@ int		main(int argc, char **argv)
 	}
 	vars.save = 0;
 	read_config_file(str, &vars);
-
 	free(str);
 	if(check_keys_and_values(&vars) != 1)
 		ft_exit_failure(vars);
@@ -321,15 +318,13 @@ int		main(int argc, char **argv)
 	if(vars.save != 1)
 	{
 		vars.win = mlx_new_window(vars.mlx, vars.scene->resolution.width, vars.scene->resolution.height, "yesmine.rt");
-		mlx_hook(vars.win, 2, 1L<<0, press_key, &vars);
+		mlx_hook(vars.win, 2, 1L << 0, &press_key, &vars);
+		mlx_hook(vars.win, 33, 1L << 17, &ft_exit, &vars);
 		mlx_loop_hook(vars.mlx, &thread_init, &vars);
 		mlx_loop(vars.mlx);
 	}
 	else
 		thread_init(&vars);
-	ft_free_map(vars.lines);
-	ft_free_scene(vars.scene);
-	exit(EXIT_SUCCESS);
-	return 0;
+	return (ft_exit(&vars));
 }
 

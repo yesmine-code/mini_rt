@@ -1,21 +1,11 @@
-/*
- * bmp.c
- *
- *  Created on: 1 janv. 2021
- *      Author: user42
- */
-
-
 #include "vec.h"
 
-
-int		get_pixel(t_vars *vars, int x, int y)
+int	get_pixel(t_vars *vars, int x, int y)
 {
 	int	ptr;
 
-	ptr = *(int*)(vars->img->addr + (4 * (int) vars->scene->resolution.width *
-			((int) vars->scene->resolution.height - 1 - y))
-			+ (4 * x));
+	ptr = *(int*)(vars->img->addr + (4 * (int)vars->scene->resolution.width
+				* ((int) vars->scene->resolution.height - 1 - y)) + (4 * x));
 	return ((ptr & 0xFF0000) | (ptr & 0x00FF00) | (ptr & 0x0000FF));
 }
 
@@ -27,7 +17,7 @@ void	extract_char_from_int(int filesize, unsigned char *str)
 	str[3] = (unsigned char)(filesize >> 24);
 }
 
-size_t image_header(t_vars *vars, int fd, int filesize)
+size_t	image_header(t_vars *vars, int fd, int filesize)
 {
 	unsigned char			str[INFO_HEADER_SIZE];
 
@@ -41,7 +31,7 @@ size_t image_header(t_vars *vars, int fd, int filesize)
 	extract_char_from_int(vars->scene->resolution.height - 1, str + 22);
 	str[26] = (unsigned char)(1);
 	str[28] = (unsigned char)(24);
-	return(write(fd, str, INFO_HEADER_SIZE));
+	return (write(fd, str, INFO_HEADER_SIZE));
 }
 
 size_t	image_pixels(t_vars *vars, int fd, int pad)
@@ -67,18 +57,21 @@ size_t	image_pixels(t_vars *vars, int fd, int pad)
 		ret += write(fd, &rgb, pad);
 		i++;
 	}
-	return(ret);
+	return (ret);
 }
 
-void save_image(t_vars *vars)
+void	save_image(t_vars *vars)
 {
 	int			fd;
 	int			filesize;
 	int			pad;
 
 	pad = (4 - (vars->scene->resolution.width * 3) % 4) % 4;
-	filesize = 54 + ((3 * vars->scene->resolution.width + pad) * vars->scene->resolution.height);
-	if ((fd = open("miniRT.bmp", O_WRONLY | O_CREAT | O_TRUNC | O_APPEND, 0666)) < 0)
+	filesize = 54 + (vars->scene->resolution.height
+			* (3 * vars->scene->resolution.width + pad));
+	fd = open("miniRT.bmp", O_WRONLY | O_CREAT | O_TRUNC
+			| O_APPEND, 0666);
+	if (fd < 0)
 	{
 		vars->error_msg = "bmp file could not be created";
 		ft_exit_failure(*vars);
@@ -87,4 +80,3 @@ void save_image(t_vars *vars)
 	image_pixels(vars, fd, pad);
 	close(fd);
 }
-

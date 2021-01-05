@@ -251,5 +251,6 @@ int			check_values_if_pl_key(t_config_map *element, t_vars *vars);
 int			check_values_if_sq_key(t_config_map *element, t_vars *vars);
 int			check_values_if_cy_key(t_config_map *element, t_vars *vars);
 int			check_values_if_tr_key(t_config_map *element, t_vars *vars);
+int			ft_exit(t_vars *vars);
 void		ft_free_map(t_list *list);
 #endif /* INCLUDES_VEC_H_ */
