@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bmp.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ybesbes <ybesbes@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/07 22:05:52 by ybesbes           #+#    #+#             */
+/*   Updated: 2021/01/07 22:06:07 by ybesbes          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "vec.h"
 
-int	get_pixel(t_vars *vars, int x, int y)
+int		get_pixel(t_vars *vars, int x, int y)
 {
 	int	ptr;
 
 	ptr = *(int*)(vars->img->addr + (4 * (int)vars->scene->resolution.width
-				* ((int) vars->scene->resolution.height - 1 - y)) + (4 * x));
+				* ((int)vars->scene->resolution.height - 1 - y)) + (4 * x));
 	return ((ptr & 0xFF0000) | (ptr & 0x00FF00) | (ptr & 0x0000FF));
 }
 

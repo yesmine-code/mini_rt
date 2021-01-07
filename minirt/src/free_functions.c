@@ -1,33 +1,38 @@
-/*
- * free_functions.c
- *
- *  Created on: 10 déc. 2020
- *      Author: user42
- */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_functions.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ybesbes <ybesbes@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/07 22:10:34 by ybesbes           #+#    #+#             */
+/*   Updated: 2021/01/07 22:10:36 by ybesbes          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "vec.h"
 
-void	ft_free_tab(void **tab, int freeTabParent)
+void	ft_free_tab(void **tab, int free_tab_parent)
 {
 	int	i;
 
 	i = 0;
-	while(tab[i] != NULL)
+	while (tab[i] != NULL)
 	{
 		free(tab[i]);
 		i++;
 	}
-	if(freeTabParent)
+	if (free_tab_parent)
 		free(tab);
 }
 
 void	ft_free_list(t_list *list)
 {
 	t_list	*tmp;
-	t_list *tmp2;
+	t_list	*tmp2;
 
 	tmp = list;
-	while(tmp != NULL)
+	while (tmp != NULL)
 	{
 		free(tmp->content);
 		tmp2 = tmp->next;
@@ -36,41 +41,41 @@ void	ft_free_list(t_list *list)
 	}
 }
 
-void ft_free_scene(t_scene *scene)
+void	ft_free_scene(t_scene *scene)
 {
-	if(scene != NULL)
+	if (scene != NULL)
 	{
-		if(scene->cameras != NULL)
+		if (scene->cameras != NULL)
 			ft_free_list(scene->cameras);
-		if(scene->cylindres != NULL)
+		if (scene->cylindres != NULL)
 			ft_free_list(scene->cylindres);
-		if(scene->lumieres != NULL)
+		if (scene->lumieres != NULL)
 			ft_free_list(scene->lumieres);
-		if(scene->planes != NULL)
+		if (scene->planes != NULL)
 			ft_free_list(scene->planes);
-		if(scene->spheres != NULL)
+		if (scene->spheres != NULL)
 			ft_free_list(scene->spheres);
-		if(scene->squares != NULL)
+		if (scene->squares != NULL)
 			ft_free_list(scene->squares);
-		if(scene->triangles != NULL)
-			ft_free_list(scene->triangles);;
+		if (scene->triangles != NULL)
+			ft_free_list(scene->triangles);
 		free(scene);
 	}
 }
 
 void	ft_free_map(t_list *list)
 {
-	t_list *tmp;
-	t_list *tmp2;
-	t_config_map *map;
+	t_list			*tmp;
+	t_list			*tmp2;
+	t_config_map	*map;
 
 	tmp = list;
-	while(tmp != NULL)
+	while (tmp != NULL)
 	{
 		map = tmp->content;
-		if(map->key != NULL)
+		if (map->key != NULL)
 			free(map->key);
-		if(map->value != NULL)
+		if (map->value != NULL)
 			ft_free_tab((void **)map->value, 0);
 		free(map);
 		tmp2 = tmp->next;
@@ -79,12 +84,12 @@ void	ft_free_map(t_list *list)
 	}
 }
 
-size_t ft_exit_failure(t_vars vars)
+size_t	ft_exit_failure(t_vars vars)
 {
-	size_t size;
+	size_t	size;
 
 	size = write(1, "ERROR : ", 8);
-	if(vars.error_msg != NULL)
+	if (vars.error_msg != NULL)
 	{
 		size += write(1, vars.error_msg, ft_strlen(vars.error_msg));
 		free(vars.error_msg);
@@ -92,6 +97,5 @@ size_t ft_exit_failure(t_vars vars)
 	ft_free_map(vars.lines);
 	ft_free_scene(vars.scene);
 	exit(EXIT_FAILURE);
-	return(size);
-
+	return (size);
 }

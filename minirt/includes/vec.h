@@ -1,41 +1,37 @@
-/*
- * vec.h
- *
- *  Created on: 2 déc. 2020
- *      Author: user42
- */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vec.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ybesbes <ybesbes@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/07 22:21:30 by ybesbes           #+#    #+#             */
+/*   Updated: 2021/01/07 22:21:32 by ybesbes          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include "libft.h"
-# include "mlx.h"
-#include <math.h>
-#include <float.h>
-#include "minirt.h"
-#include <pthread.h>
+#ifndef VEC_H_
+# define VEC_H_
 
-#ifndef INCLUDES_VEC_H_
-#define INCLUDES_VEC_H_
+# include "minirt.h"
+# include <pthread.h>
 
-#define PI 3.141592653589793
-#define THREADS_NUM 8
-#define INFO_HEADER_SIZE 54
-#define MAX_VALUE 1E99
-#define EPSILON 1e-6
-#define SPHERE 0
-#define SQUARE 1
-#define PLANE 2
-#define TRIANGLE 3
-#define CYLINDRE 4
-#define KEY_LEFT 123
-#define KEY_RIGHT 124
-#define KEY_DOWN 125
-#define KEY_UP 126
+# define PI 3.141592653589793
+# define THREADS_NUM 8
+# define INFO_HEADER_SIZE 54
+# define MAX_VALUE 1E99
+# define EPSILON 1e-6
+# define SPHERE 0
+# define SQUARE 1
+# define PLANE 2
+# define TRIANGLE 3
+# define CYLINDRE 4
+# define KEY_LEFT 123
+# define KEY_RIGHT 124
+# define KEY_DOWN 125
+# define KEY_UP 126
 
-
-typedef struct 	s_equation
+typedef struct	s_equation
 {
 	double		a;
 	double		b;
@@ -45,27 +41,27 @@ typedef struct 	s_equation
 	double		t2;
 }				t_equation;
 
-typedef struct 	s_color
+typedef struct	s_color
 {
 	double		r;
 	double		g;
 	double 		b;
 }				t_color;
 
-typedef struct 	s_vector
+typedef struct	s_vector
 {
 	double	x;
 	double	y;
 	double	z;
 }				t_vector;
 
-typedef struct 	s_ray
+typedef struct	s_ray
 {
 	t_vector	origine;
 	t_vector	direction;
 }				t_ray;
 
-typedef struct 	s_obj_info
+typedef struct	s_obj_info
 {
 	 t_vector	pos;
 	 t_vector	norm;
@@ -74,21 +70,21 @@ typedef struct 	s_obj_info
 	 double		t_min;
 }				t_obj_info;
 
-typedef struct 	s_sphere
+typedef struct	s_sphere
 {
 	double		rayon;
 	t_vector	origine;
 	t_color		color;
 }				t_sphere;
 
-typedef struct 	s_plane
+typedef struct	s_plane
 {
 	t_vector	origine;
 	t_vector	direction;
 	t_color     color;
 }				t_plane;
 
-typedef struct 	s_square
+typedef struct	s_square
 {
 	double		hauteur;
 	t_vector	origine;
@@ -96,7 +92,7 @@ typedef struct 	s_square
 	t_color		color;
 }				t_square;
 
-typedef struct 	s_cylindre
+typedef struct	s_cylindre
 {
 	double		hauteur;
 	double		diametre;
@@ -105,7 +101,7 @@ typedef struct 	s_cylindre
 	t_color		color;
 }				t_cylindre;
 
-typedef struct 	s_triangle
+typedef struct	s_triangle
 {
 	t_vector	p1;
 	t_vector	p2;
@@ -114,7 +110,7 @@ typedef struct 	s_triangle
 	t_vector	direction;
 }				t_triangle;
 
-typedef struct 	s_lumiere
+typedef struct	s_lumiere
 {
 	double		intensite;
 	double		ratio;
@@ -123,7 +119,7 @@ typedef struct 	s_lumiere
 	t_vector	norm;
 }				t_lumiere;
 
-typedef struct 	s_camera
+typedef struct	s_camera
 {
 	double		fov;
 	t_vector	origine;
@@ -133,13 +129,13 @@ typedef struct 	s_camera
 	t_vector	lower_left_corner;
 }				t_camera;
 
-typedef struct 	s_lum_ambiante
+typedef struct	s_lum_ambiante
 {
 	double		ratio;
 	t_color		couleur;
 }				t_lum_ambiante;
 
-typedef struct 	s_scene
+typedef struct	s_scene
 {
 	t_resolution		resolution;
 	t_lum_ambiante		lum_amb;
@@ -154,7 +150,7 @@ typedef struct 	s_scene
 }				t_scene;
 
 
-typedef struct 	s_vars
+typedef struct	s_vars
 {
 	t_list	*lines;
 	void	*mlx;
@@ -165,7 +161,7 @@ typedef struct 	s_vars
 	char	*error_msg;
 }				t_vars;
 
-typedef struct 	s_args
+typedef struct	s_args
 {
 	t_vars	*vars;
 	int		thread_id;
@@ -242,15 +238,25 @@ size_t		ft_exit_failure(t_vars vars);
 int			check_keys_and_values(t_vars *vars);
 void		ft_free_scene(t_scene *scene);
 int			check_values(t_config_map *element, t_vars *vars);
-int			check_values_if_A_key(t_config_map *element, t_vars *vars);
-int			Check_values_if_Rkey(t_config_map *element, t_vars *vars);
-int			check_values_if_c_key(t_config_map *element, t_vars *vars);
-int			check_values_if_l_key(t_config_map *element, t_vars *vars);
+int			check_values_if_akey(t_config_map *element, t_vars *vars);
+int			check_values_if_rkey(t_config_map *element, t_vars *vars);
+int			check_values_if_ckey(t_config_map *element, t_vars *vars);
+int			check_values_if_lkey(t_config_map *element, t_vars *vars);
 int			check_values_if_sp_key(t_config_map *element, t_vars *vars);
-int			check_values_if_pl_key(t_config_map *element, t_vars *vars);
+int			check_values_if_plkey(t_config_map *element, t_vars *vars);
 int			check_values_if_sq_key(t_config_map *element, t_vars *vars);
 int			check_values_if_cy_key(t_config_map *element, t_vars *vars);
-int			check_values_if_tr_key(t_config_map *element, t_vars *vars);
+int			check_values_if_trkey(t_config_map *element, t_vars *vars);
 int			ft_exit(t_vars *vars);
 void		ft_free_map(t_list *list);
-#endif /* INCLUDES_VEC_H_ */
+int			converting_ints_or_floats(char **tab, int *i, double min, double max);
+void		fill_triangles(t_config_map *element, t_vars *vars);
+void		fill_planes(t_config_map *element, t_vars *vars);
+void		fill_cylindres(t_config_map *element, t_vars *vars);
+void		fill_squares(t_config_map *element, t_vars *vars);
+void		fill_spheres(t_config_map *element, t_vars *vars);
+void		fill_scene(t_vars *vars);
+void		read_config_file(char *config_file, t_vars *vars);
+int			check_file_extention(char *filename);
+
+#endif

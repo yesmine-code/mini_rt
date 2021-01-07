@@ -1,24 +1,23 @@
-/*
- * get_structs.c
- *
- *  Created on: 9 déc. 2020
- *      Author: user42
- */
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_structs.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ybesbes <ybesbes@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/07 22:16:31 by ybesbes           #+#    #+#             */
+/*   Updated: 2021/01/07 22:16:35 by ybesbes          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "vec.h"
 
-/**
- * this function parses camera values
- * @return
- * 1 if element is a camera
- * 0 if element is not
- */
-t_camera *get_camera_values(t_config_map *element, t_vars *vars)
+t_camera		*get_camera_values(t_config_map *element, t_vars *vars)
 {
-	char	**tab;
-	t_camera *cam = NULL;
+	char		**tab;
+	t_camera	*cam;
 
+	cam = NULL;
 	cam = malloc(sizeof(t_camera));
 	if (cam == NULL)
 	{
@@ -39,32 +38,35 @@ t_camera *get_camera_values(t_config_map *element, t_vars *vars)
 	return (cam);
 }
 
-t_resolution get_resolution_values(t_config_map *element)
+t_resolution	get_resolution_values(t_config_map *element)
 {
 	t_resolution r;
+
 	r.width = ft_atoi(element->value[0]);
 	r.height = ft_atoi(element->value[1]);
-	return(r);
+	return (r);
 }
 
-t_lum_ambiante get_lumiere_ambiante(t_config_map *element)
+t_lum_ambiante	get_lumiere_ambiante(t_config_map *element)
 {
-	t_lum_ambiante lum;
-	char	**tab;
+	t_lum_ambiante	lum;
+	char			**tab;
+
 	convert_char_to_float(element->value[0], &lum.ratio);
 	tab = ft_split(element->value[1], ',');
 	lum.couleur.r = ft_atoi(tab[0]);
 	lum.couleur.g = ft_atoi(tab[1]);
 	lum.couleur.b = ft_atoi(tab[2]);
 	ft_free_tab((void **)tab, 1);
-	return(lum);
+	return (lum);
 }
 
-t_lumiere	*get_lumiere_values(t_config_map *element, t_vars *vars)
+t_lumiere		*get_lumiere_values(t_config_map *element, t_vars *vars)
 {
-	char	**tab;
-	t_lumiere	*lum = NULL;
+	char		**tab;
+	t_lumiere	*lum;
 
+	lum = NULL;
 	lum = malloc(sizeof(t_lumiere));
 	if (lum == NULL)
 	{

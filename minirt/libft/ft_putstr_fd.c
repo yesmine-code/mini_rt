@@ -16,15 +16,16 @@
 int	ft_putstr_fd(char *s, int fd)
 {
 	int	i;
-	int ret = 0;
+	int ret;
 
 	i = 0;
+	ret = 0;
 	if (s == NULL)
-		return ret;
+		return (ret);
 	while (s[i] != '\0')
 	{
 		ret += write(fd, &s[i], 1);
 		i++;
 	}
-	return ret;
+	return (ret);
 }
