@@ -37,6 +37,7 @@ void	vars_init(t_vars *vars)
 
 void	get_data(t_vars *vars, t_data *img)
 {
+	check_scene(vars);
 	compute_window_resolution(vars);
 	img->img = mlx_new_image(vars->mlx,
 			vars->scene->resolution.width, vars->scene->resolution.height);
@@ -64,21 +65,25 @@ int		main(int argc, char **argv)
 {
 	t_data	img;
 	t_vars	vars;
-	char	*str;
 
-	str = NULL;
 	vars_init(&vars);
-	if (argc == 2)
-		str = ft_strjoin("/home/user42/Bureau/minirt2/minirt/", argv[1]);
-	else
-		str = ft_strdup("/home/user42/Bureau/minirt2/minirt/scenes/sphere.rt");
-	if (!check_file_extention(str))
+	argc = 2;
+	argv[1] = "scenes/scene.rt";
+	if ((argc != 2 && argc != 3) || (argc == 3 &&
+			!(ft_strncmp(argv[2], "-save", ft_strlen("-save")) == 0
+			&& ft_strlen("-save") == ft_strlen(argv[2]))))
+	{
+		vars.error_msg = ft_strdup("wrong arguments");
+		ft_exit_failure(vars);
+	}
+	if (argc == 3)
+		vars.save = 1;
+	if (!check_file_extention(argv[1]))
 	{
 		vars.error_msg = ft_strdup("wrong filename extension");
 		ft_exit_failure(vars);
 	}
-	read_config_file(str, &vars);
-	free(str);
+	read_config_file(argv[1], &vars);
 	if (check_keys_and_values(&vars) != 1)
 		ft_exit_failure(vars);
 	fill_scene(&vars);

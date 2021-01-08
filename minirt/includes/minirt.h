@@ -68,5 +68,10 @@ int				check_n_limitted_floats_or_int(char *value,
 int				value_is_int(char *value);
 t_resolution	get_resolution_values(t_config_map *element);
 void			my_mlx_pixel_put(t_data *data, int x, int y, int color);
+int				check_file_extention(char *filename);
+int				converting_ints_or_floats(char **tab, int *i,
+				double min, double max);
+void			ft_free_map(t_list *list);
+void			*get_from_list_by_id(t_list *list, int object_id);
 
 #endif

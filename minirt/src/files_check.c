@@ -17,6 +17,8 @@ void	get_map(char *line, t_vars *vars, t_list **lines)
 	t_config_map	*map;
 	t_list			*el;
 
+	while (ft_isspace(*line) == 1)
+		line++;
 	if (ft_strlen(line) > 0 && line[0] != '#')
 	{
 		map = get_map_from_line(line);

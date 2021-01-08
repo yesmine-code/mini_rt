@@ -56,8 +56,8 @@ t_color		ft_col_clamp(t_color v)
 {
 	t_color	vec;
 
-	vec.r = max(min(v.r, 0.999), 0.);
-	vec.g = max(min(v.g, 0.999), 0.);
-	vec.b = max(min(v.b, 0.999), 0.);
+	vec.r = fmax(fmin(v.r, 0.999), 0.);
+	vec.g = fmax(fmin(v.g, 0.999), 0.);
+	vec.b = fmax(fmin(v.b, 0.999), 0.);
 	return (vec);
 }

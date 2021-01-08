@@ -2,23 +2,23 @@ NAME = miniRT
 
 SRCS = ${wildcard src/*.c}
 
-INCLUDES = includes
+INCLUDES 	= includes
 
 OBJS		= ${SRCS:.c=.o}
 
-LIBFT_DIR = libft
+LIBFT_DIR 	= libft
 
-SRCS_LIBFT = ${wildcard libft/*.c}
+SRCS_LIBFT 	= ${wildcard libft/*.c}
 
-OBJS_LIBFT		= ${SRCS_LIBFT:.c=.o}
+OBJS_LIBFT	= ${SRCS_LIBFT:.c=.o}
 
-MLX_DIR = mlx_linux
+MLX_DIR 	= mlx_linux
 
 CC			= gcc
 
-MLX_FLAGS = -lm -lbsd -lXext -lX11 -lz -pthread
+MLX_FLAGS 	= -L./mlx_linux -lmlx_Linux -lm -lbsd -lXext -lX11 -lz -pthread
 
-LFLAGS =  -D BUFFER_SIZE=100
+LFLAGS 		=  -D BUFFER_SIZE=100
 
 RM			= rm -f
 
@@ -29,10 +29,12 @@ all: 			$(NAME)
 $(NAME):		$(OBJS) $(OBJS_LIBFT)
 				@make -C $(MLX_DIR)
 				@make -C $(LIBFT_DIR)
-				@$(CC) $(CFLAGS) $(LFLAGS) -I $(INCLUDES) $(OBJS)  $(OBJS_LIBFT) -o $(NAME) -L./mlx_linux -lmlx_Linux -lm -lbsd -lXext -lX11 -lz -lpthread
+				@$(CC) $(CFLAGS) $(LFLAGS) -I $(INCLUDES) $(OBJS)  $(OBJS_LIBFT) -o $(NAME) $(MLX_FLAGS)
 
 %.o: %.c
 				@$(CC) $(CFLAGS) $(LFLAGS)  -I $(INCLUDES) -o $@ -c $<
+				
+bonus:			$(NAME)
 
 clean:
 				${RM} ${OBJS}

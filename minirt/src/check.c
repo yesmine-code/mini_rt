@@ -83,5 +83,6 @@ int		check_keys_and_values(t_vars *vars)
 			return (-1);
 		tmp = tmp->next;
 	}
+	check_resolution(var_r, vars);
 	return (1);
 }

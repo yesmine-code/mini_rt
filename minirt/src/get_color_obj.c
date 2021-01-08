@@ -45,6 +45,7 @@ void	get_intensite_pixel(t_scene *scene, t_lumiere *lum,
 		ft_col_div_d(255, scene->lum_amb.couleur)));
 	if (lum)
 	{
+		intensite_pixel_calcul(scene, lum, obj_info, &light_sum);
 		col = ft_col_add(col, light_sum);
 		*intensite_pixel = ft_col_clamp(ft_col_add(*intensite_pixel, col));
 	}
@@ -60,6 +61,7 @@ t_color	get_color_obj_inter(t_ray *ray, t_scene *scene)
 	t_obj_info	obj_info;
 	t_lumiere	*lum;
 
+	obj_info.object_id = 0;
 	intensite_pixel = (t_color){0, 0, 0};
 	if (ft_intersection(scene, ray, &obj_info) == 1)
 	{
